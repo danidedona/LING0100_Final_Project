@@ -1,11 +1,5 @@
 # LING0100_Final_Project
 
-# IPA Transcriber for Swear Words
-
-## Description
-
-This project transcribes swear words from various languages into IPA (International Phonetic Alphabet) using `epitran`.
-
 ## ENV setup
 
 1. conda create --name my_python python=3.11
@@ -93,3 +87,7 @@ perra,es,ˈpera
 चूतिया,hi,tʃuːtiːjaː
 کسکش,fa,koskæʃ
 ```
+
+Credits:
+
+- Epitran: https://github.com/dmort27/epitran

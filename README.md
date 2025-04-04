@@ -31,22 +31,28 @@ If no input file is specified, the script will default to data/swear.json.
 
 This script currently supports the following languages:
 
-| Language             | Code | Script             |
-| -------------------- | ---- | ------------------ |
-| English              | `en` | Latin              |
-| French               | `fr` | Latin              |
-| Italian              | `it` | Latin              |
-| Spanish              | `es` | Latin              |
-| Portuguese           | `pt` | Latin              |
-| Russian              | `ru` | Cyrillic           |
-| Turkish              | `tr` | Latin              |
-| **Mandarin Chinese** | `zh` | Hanzi (Simplified) |
-| **Hindi**            | `hi` | Devanagari         |
-| **Persian (Farsi)**  | `fa` | Arabic             |
+| Language         | Code | Script             |
+| ---------------- | ---- | ------------------ |
+| English          | `en` | Latin              |
+| French           | `fr` | Latin              |
+| Italian          | `it` | Latin              |
+| Spanish          | `es` | Latin              |
+| Portuguese       | `pt` | Latin              |
+| Russian          | `ru` | Cyrillic           |
+| Turkish          | `tr` | Latin              |
+| Mandarin Chinese | `zh` | Hanzi (Simplified) |
+| Hindi            | `hi` | Devanagari         |
+| Persian (Farsi)  | `fa` | Arabic             |
 
 Available language maps in Epitran:
 
 ['hmn-Latn', 'spa-Latn', 'som-Latn', 'tir-Ethi-red', 'Goth2Latn', 'gan-Latn', 'zul-Latn', 'ben-Beng-east', 'ron-Latn', 'pii-latn_Wiktionary', 'ood-Latn-sax', 'uzb-Latn', 'lsm-Latn', 'xho-Latn', 'aze-Latn', 'lao-Laoo', 'hun-Latn', 'urd-Arab', 'tuk-Cyrl', 'mri-Latn', 'kmr-Latn-red', 'hrv-Latn', 'khm-Khmr', 'lao-Laoo-prereform', 'ckb-Arab', 'tir-Ethi-pp', 'sna-Latn', 'hsn-Latn', 'amh-Ethi-red', 'jpn-Ktkn-red', 'got-Latn', 'vie-Latn-so', 'cjy-Latn', 'ita-Latn', 'ava-Cyrl', 'kaz-Cyrl', 'tgk-Cyrl', 'ood-Latn-alv', 'jav-Latn', 'Latn2Goth', 'uig-Arab', 'jpn-Hrgn', 'swa-Latn-red', 'vie-Latn-ce', 'ceb-Latn', 'kin-Latn', 'fra-Latn', 'deu-Latn-np', 'ful-Latn', 'pan-Guru', 'nan-Latn-tl', 'nya-Latn', 'yor-Latn', 'sin-Sinh', 'fra-Latn-rev', 'yue-Latn', 'wuu-Latn', 'fin-Latn', 'aar-Latn', 'kmr-Latn', 'amh-Ethi', 'kaz-Cyrl-bab', 'kir-Arab', 'aii-Syrc', 'swa-Latn', 'uew', 'spa-Latn-eu', 'kir-Cyrl', 'srp-Latn', 'cat-Latn', 'mon-Cyrl-bab', 'ind-Latn', 'deu-Latn-nar', 'hak-Latn', 'run-Latn', 'jpn-Hrgn-red', 'fas-Arab', 'nan-Latn', 'tuk-Latn', 'tgl-Latn', 'nld-Latn', 'csb-Latn', 'kaz-Latn', 'mar-Deva', 'ara-Arab', 'zha-Latn', 'lav-Latn', 'mlt-Latn', 'rus-Cyrl', 'kat-Geor', 'jam-Latn', 'kor-Hang', 'deu-Latn', 'mya-Mymr', 'tam-Taml', 'ces-Latn', 'bxk-Latn', 'glg-Latn', 'vie-Latn-no', 'swe-Latn', 'hau-Latn', 'aze-Cyrl', 'fra-Latn-p', 'vie-Latn', 'orm-Latn', 'uzb-Cyrl', 'ben-Beng', 'kir-Latn', 'msa-Latn', 'generic-Latn', 'tam-Taml-red', 'ben-Beng-red', 'ori-Orya', 'est-Latn', 'cmn-Latn', 'kbd-Cyrl', 'pii-latn_Holopainen2019', 'sag-Latn', 'tur-Latn-red', 'por-Latn', 'tur-Latn', 'tgl-Latn-red', 'hin-Deva', 'mal-Mlym', 'lit-Latn', 'tha-Thai', 'srp-Cyrl', 'amh-Ethi-pp', 'tpi-Latn', 'jpn-Ktkn', 'hat-Latn-bab', 'fra-Latn-np', 'lez-Cyrl', 'tel-Telu', 'ilo-Latn', 'lij-Latn', 'sqi-Latn', 'pol-Latn', 'ukr-Cyrl', 'tir-Ethi', 'ltc-Latn-bax', 'epo-Latn', 'quy-Latn', 'tur-Latn-bab']
+
+# translate.py and translate2.py
+
+Translate.py uses ArgosTranslate while translate2.py uses DeepL with an ArgosTranslate fallback if DeepL doesn't support the language.
+Note: For translate2.py, you must have your DeepL API key in the DEEPL_AUTH_KEY environment variable.
+The scripts generate English translations of words in data/raw_words.
 
 ## Running the Script
 
@@ -91,3 +97,8 @@ perra,es,ˈpera
 Credits:
 
 - Epitran: https://github.com/dmort27/epitran
+- Datasets:
+  https://www.kaggle.com/datasets/miklgr500/jigsaw-multilingual-swear-profanity (French, Turkish, Italian, Russian, Spanish, Portuguese)
+  https://github.com/chingachleung/Chinese_Hate_Speech-Baseline- (Mandarin)
+  https://www.kaggle.com/code/mpwolke/hindi-swear-words
+  https://www.kaggle.com/code/mpwolke/persian-swear-words

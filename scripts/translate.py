@@ -1,43 +1,36 @@
 import os
 import sys
-import epitran
 import csv
-
-# Updated language codes based on available Epitran mappings
-LANGUAGE_CODES = {
-    'en': 'generic-Latn',  # No specific English, but generic Latin script might work
-    'fr': 'fra-Latn',      # French with Latin script
-    'it': 'ita-Latn',      # Italian with Latin script
-    'es': 'spa-Latn',      # Spanish with Latin script
-    'pt': 'por-Latn',      # Portuguese with Latin script
-    'ru': 'rus-Cyrl',      # Russian with Cyrillic script
-    'tr': 'tur-Latn',      # Turkish with Latin script
-    'zh': 'cmn-Hans',      # Mandarin (Simplified)
-    'hi': 'hin-Deva',      # Hindi with Devanagari script
-    'fa': 'fas-Arab',      # Persian with Arabic script
-}
-epitran.download.cedict()
+import argostranslate.package
+import argostranslate.translate
 
 # Define your input and output directories
 INPUT_DIR = "data/raw_words"
-OUTPUT_DIR = "data/raw_words_and_ipa"
+OUTPUT_DIR = "data/translations"
+
+argostranslate.package.update_package_index()
+available_packages = argostranslate.package.get_available_packages()
 
 # Ensure output directory exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-def transcribe_word(word, lang_code):
-    """Transcribes a word into IPA using Epitran."""
-    if lang_code not in LANGUAGE_CODES:
-        return "[Unsupported language]"
-    
+def translate_word(word, lang_code):
+    """Translates a word into English using Argostranslate."""
     try:
-        epi = epitran.Epitran(LANGUAGE_CODES[lang_code])
-        return epi.transliterate(word)
+        return argostranslate.translate.translate(word, lang_code, "en")
     except Exception as e:
         return f"[Error: {str(e)}]"
 
 def process_csv(input_file, output_file):
-    """Processes a single CSV file, transcribing words into IPA."""
+    """Processes a single CSV file, translating words into English. Assumes langcode_swear_words.csv naming format."""
+    lang_code = os.path.basename(input_file).split("_", 1)[0]
+    package_to_install = next(
+    filter(
+        lambda x: x.from_code == lang_code and x.to_code == "en", available_packages
+    ), None)
+    if package_to_install is None:
+        raise Exception("Unsupported language code " + lang_code + " for translation to English.")
+    argostranslate.package.install_from_path(package_to_install.download())
     with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', encoding='utf-8', newline='') as outfile:
         reader = csv.reader(infile)
         writer = csv.writer(outfile)
@@ -46,7 +39,7 @@ def process_csv(input_file, output_file):
         first_row = next(reader, None)
         if first_row is None:
             # Empty file
-            writer.writerow(["Word", "Language", "IPA"])
+            writer.writerow(["Word", "English Translation"])
             return
         
         # Check if the first row looks like a header
@@ -54,10 +47,10 @@ def process_csv(input_file, output_file):
         
         if has_header:
             # Use the existing header
-            writer.writerow(["Word", "Language", "IPA"])
+            writer.writerow(["Word", "English Translation"])
         else:
             # First row is data, not header - process it and add a header to output
-            writer.writerow(["Word", "Language", "IPA"])
+            writer.writerow(["Word", "English Translation"])
             infile.seek(0)  # Reset to beginning of file
         
         # Process all rows
@@ -65,9 +58,11 @@ def process_csv(input_file, output_file):
             if len(row) < 2:
                 continue  # Skip invalid rows
             
-            word, lang_code = row
-            ipa_transcription = transcribe_word(word.strip(), lang_code.strip())
-            writer.writerow([word, lang_code, ipa_transcription])
+            word, lang_code_row = row
+            if (lang_code_row != lang_code):
+                raise Exception("Found language code " + lang_code_row + " in file that should have language code " + lang_code)
+            translation = translate_word(word.strip(), lang_code.strip())
+            writer.writerow([word, translation])
 
 def process_all_csv():
     """Processes all CSV files in the input directory."""

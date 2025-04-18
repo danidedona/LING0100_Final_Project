@@ -2,3 +2,4 @@ epitran
 phonemizer
 argostranslate
 vaderSentiment
+panphon

@@ -1,0 +1,7 @@
+,Count,Count,Count,Count,Percent,Percent,Percent,Percent
+,neutral,positive,very_negative,moderately_negative,neutral,positive,very_negative,moderately_negative
+vowel,25,21,169,33,36.76,38.18,42.25,39.29
+approximant,11,9,74,13,16.18,16.36,18.5,15.48
+plosive,25,9,72,18,36.76,16.36,18.0,21.43
+nasal,7,7,31,9,10.29,12.73,7.75,10.71
+fricative,0,9,54,11,0.0,16.36,13.5,13.1
